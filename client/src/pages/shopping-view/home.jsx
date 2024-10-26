@@ -75,10 +75,24 @@ function ShoppingHome() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    dispatch(fetchProductDetails(getCurrentProductId));
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    if (!token) {
+      navigate("/auth/login");
+      toast({
+        title: "Please Login first",
+      });
+      setOpenDetailsDialog(false);
+    } else dispatch(fetchProductDetails(getCurrentProductId));
   }
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    if (!token) {
+      navigate("/auth/login");
+      toast({
+        title: "Please Login first",
+      });
+    }
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -133,8 +147,6 @@ function ShoppingHome() {
       })
     );
   }, [dispatch]);
-
-  console.log(productList, "productList");
 
   useEffect(() => {
     dispatch(getFeatureImages());
