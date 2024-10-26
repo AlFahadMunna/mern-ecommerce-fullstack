@@ -84,6 +84,9 @@ function AdminProducts() {
   function handleDelete(getCurrentProductId) {
     dispatch(deleteProduct(getCurrentProductId)).then((data) => {
       if (data?.payload?.success) {
+        toast({
+          title: "Product deleted",
+        });
         dispatch(fetchAllProducts());
       }
     });
